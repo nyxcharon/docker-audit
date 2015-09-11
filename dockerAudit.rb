@@ -49,12 +49,17 @@ class Audit
     options.verbose = false
     options.lynis = false
     options.hound = ""
+    options.list = ""
 
     opt_parser = OptionParser.new do |opts|
       opts.banner = "Usage: docker-audit.rb [options]"
       opts.on("-h", "--hound URL",
             "Hound URL to pull images from") do |url|
             options.hound << url
+      end
+      opts.on("-i", "--images URL",
+            "Comma seperated list of images") do |list|
+            options.hound << list
       end
       opts.on("-v", "--verbose", "Run verbosely") do |v| options.verbose = v end
       opts.on("-l", "--lynis", "Run lynis scan") do |l| options.lynis = l end
@@ -78,6 +83,11 @@ class Audit
     failed_test = ""
     if options.hound
       images = hound_url(options.hound)
+    elsif options.list
+      images = list(options.list)
+    else
+      puts "No images specified"
+      exit 0
     end
 
     output("Checking the following images:\n #{images.uniq}")
