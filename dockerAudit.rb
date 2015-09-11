@@ -130,8 +130,10 @@ class Audit
 
     if failed_test.empty?
       puts "Audit Passed"
+      exit 0
     else
       puts "Audit Failed: "+failed_test
+      exit 1
     end
   end
 end
