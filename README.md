@@ -9,11 +9,12 @@ lynis security reports. It returns 0 on a clean audit, and 1 otherwise.
 
 Flags:
 ----------------
--h Hound_URL  : Specify a hound url to search your docker compose files for images
--i image,list : Specify a comma delimited list of images to check
--v : Verbosity on. If left out, this script will only output a pass or fail message
+-h Hound_URL  : Specify a hound url to search your docker compose files for images  
+-i image,list : Specify a comma delimited list of images to check  
+-v : Verbosity on. If left out, this script will only output a pass or fail message  
 -l : Besides the base checks, additionally run a lynis scan for each image. Use in conjunction
 with -v  
+
 
 Usage:
 ----------------
