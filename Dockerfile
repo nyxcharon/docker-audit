@@ -11,7 +11,7 @@ RUN apt-get update -qq && apt-get install -qqy \
     ruby
 
 # Install Docker from Docker Inc. repositories.
-RUN curl -sSL https://get.docker.com/ubuntu/ | sh
+RUN curl -sSL https://get.docker.com/ | sh
 
 # Install the magic wrapper.
 ADD ./wrapdocker /usr/local/bin/wrapdocker
