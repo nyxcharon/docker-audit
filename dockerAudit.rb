@@ -59,7 +59,7 @@ class Audit
       end
       opts.on("-i", "--images URL",
             "Comma seperated list of images") do |list|
-            options.hound << list
+            options.list << list
       end
       opts.on("-v", "--verbose", "Run verbosely") do |v| options.verbose = v end
       opts.on("-l", "--lynis", "Run lynis scan") do |l| options.lynis = l end
