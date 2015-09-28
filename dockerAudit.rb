@@ -91,9 +91,17 @@ class Audit
     end
 
     output("Checking the following images:\n #{images.uniq}")
+    no_test = Array.new
     images.uniq.each do |image|
         output("--------------- Running #{image} -----------------")
-        pull=%x[docker pull #{image}]
+        pull=%x[docker pull #{image} 2>&1]
+
+        if pull.include?("Error: Status 403")
+          output("Could not pull #{image}")
+          no_test << "#{image}"
+          next
+        end
+
         bash=%x[docker run --rm --entrypoint=bash #{image} --version 2>&1]
         openssl=%x[docker run --rm --entrypoint=openssl #{image} version 2>&1]
 
@@ -126,14 +134,19 @@ class Audit
            lyn=%x[docker run --rm -v /lynis:/lynis --entrypoint=/lynis/lynis -w /lynis #{image} audit system --quick 2>&1]
            output(lyn)
         end
+
+        rm=%x[docker rmi #{image} 2>&1]
     end #End image loop
 
-    if failed_test.empty?
+    if failed_test.empty? and no_test.empty?
       puts "Audit Passed"
       exit 0
-    else
+    elsif no_test.empty?
       puts "Audit Failed: "+failed_test
       exit 1
+    else
+      puts "Couldn't check these images: #{no_test.join(' ')}"
+      exit 2
     end
   end
 end
