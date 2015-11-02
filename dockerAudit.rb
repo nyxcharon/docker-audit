@@ -94,6 +94,7 @@ class Audit
     no_test = Array.new
     images.uniq.each do |image|
         output("--------------- Running #{image} -----------------")
+        output(" Started image scan at #{Time.now.getutc}")
         pull=%x[docker pull #{image} 2>&1]
 
         if pull.include?("Error: Status 403")
